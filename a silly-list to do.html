@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Our Silly To-Do List 💛</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(135deg, #ffe7f1, #fffbfd, #ffeef7);
+      font-family: "Poppins", sans-serif;
+      animation: fadeIn 1.5s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    .container {
+      max-width: 700px;
+      margin: 60px auto;
+      background: white;
+      padding: 40px;
+      border-radius: 25px;
+      box-shadow: 0 10px 35px rgba(255, 140, 180, 0.25);
+      animation: float 6s infinite ease-in-out;
+    }
+
+    @keyframes float {
+      0% { transform: translateY(0px); }
+      50% { transform: translateY(-8px); }
+      100% { transform: translateY(0px); }
+    }
+
+    h2 {
+      text-align: center;
+      font-size: 36px;
+      color: #ff5e8e;
+      text-shadow: 0 0 8px rgba(255, 126, 160, 0.3);
+      position: relative;
+      margin-bottom: 35px;
+      animation: bounceTitle 1.8s infinite;
+    }
+
+    @keyframes bounceTitle {
+      0% { transform: translateY(0); }
+      50% { transform: translateY(-4px); }
+      100% { transform: translateY(0); }
+    }
+
+    h2::after {
+      content: "💛";
+      position: absolute;
+      right: -30px;
+      animation: heartPop 2s infinite;
+    }
+
+    @keyframes heartPop {
+      0% { transform: scale(1); opacity: 0.6; }
+      50% { transform: scale(1.4); opacity: 1; }
+      100% { transform: scale(1); opacity: 0.6; }
+    }
+
+    ol {
+      font-size: 20px;
+      line-height: 1.8;
+      color: #4b003b;
+      padding-left: 25px;
+    }
+
+    ol li {
+      margin: 12px 0;
+      background: #ffe9f2;
+      padding: 12px 18px;
+      border-radius: 12px;
+      transition: transform 0.3s, box-shadow 0.3s;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Hover wiggle animation */
+    ol li:hover {
+      transform: scale(1.04) rotate(1deg);
+      box-shadow: 0 6px 16px rgba(255, 140, 180, 0.25);
+    }
+
+    /* Floating confetti hearts on hover */
+    ol li:hover::after {
+      content: "💗";
+      position: absolute;
+      right: 10px;
+      animation: pop 0.7s ease-out;
+    }
+
+    @keyframes pop {
+      from { transform: scale(0.4) rotate(0deg); opacity: 0; }
+      to { transform: scale(1.5) rotate(25deg); opacity: 1; }
+    }
+
+    /* Back Button */
+    .back {
+      display: block;
+      text-align: center;
+      margin-top: 30px;
+      font-size: 20px;
+      text-decoration: none;
+      color: white;
+      background: #ff73a3;
+      width: 200px;
+      margin: 35px auto 0;
+      padding: 14px;
+      border-radius: 50px;
+      box-shadow: 0 5px 20px rgba(255, 126, 160, 0.4);
+      transition: 0.3s;
+    }
+
+    .back:hover {
+      background: #ff5a8b;
+      transform: scale(1.05);
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <h2>Our Silly Things To Do 😌</h2>
+
+    <ol>
+      <li>Race to see who finishes a juice box faster — loser buys ice cream.</li>
+      <li>Take dramatic couple photos like we’re in a Netflix romance.</li>
+      <li>Have a staring contest (no blinking, no laughing — good luck).</li>
+      <li>Try to bake something and absolutely fail together.</li>
+      <li>Make a TikTok we’ll regret tomorrow.</li>
+      <li>Walk holding hands and pretend the world is watching us like celebrities.</li>
+      <li>Argue over who loves who more (I’m already winning).</li>
+      <li>Watch a horror movie and scream at literally nothing.</li>
+      <li>Do a 10-second kiss without laughing — impossible.</li>
+      <li>Take the most unserious, chaotic couple selfie ever made.</li>
+    </ol>
+
+    <!-- Back Button -->
+    <a class="back" href="index.html">⬅ Back to Love Page</a>
+  </div>
+</body>
+</html>

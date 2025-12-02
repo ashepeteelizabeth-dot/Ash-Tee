@@ -1,0 +1,287 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>For Tee — You, Me & Butterflies</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+  <section id="silly-list">
+
+</section>
+
+  <style>
+    :root{
+      --bg1: #0f172a; /* deep indigo */
+      --bg2: #2b0f2f; /* plum */
+      --accent: #ff6b9a; /* warm pink */
+      --accent-2: #ffd36b; /* soft gold */
+      --card: rgba(255,255,255,0.06);
+      --glass: rgba(255,255,255,0.06);
+      --text: #f3f4f6;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%;margin:0;font-family:Inter,system-ui,Arial; background: radial-gradient(1200px 600px at 10% 10%, rgba(255,107,154,0.06), transparent), linear-gradient(160deg,var(--bg1),var(--bg2)); color:var(--text);}
+
+    /* floating hearts background */
+    .sky{position:fixed;inset:0;pointer-events:none;overflow:hidden}
+    .heart{position:absolute;width:18px;height:18px;transform:rotate(-45deg);opacity:0.85}
+    .heart:before,.heart:after{content:"";position:absolute;width:18px;height:18px;border-radius:50%;background:var(--accent)}
+    .heart:before{top:-9px;left:0}
+    .heart:after{left:9px;top:0}
+
+    .container{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:40px}
+    .card{width:980px;max-width:95%;background:linear-gradient(180deg,rgba(255,255,255,0.03),rgba(255,255,255,0.02));border:1px solid rgba(255,255,255,0.06);border-radius:18px;padding:32px;display:grid;grid-template-columns:360px 1fr;gap:28px;box-shadow:0 10px 30px rgba(11,12,18,0.6);backdrop-filter:blur(6px)}
+
+    /* left column: photos */
+    .left{display:flex;flex-direction:column;gap:14px}
+    .photo-frame{background:linear-gradient(135deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border-radius:12px;padding:10px;border:1px solid rgba(255,255,255,0.04);display:flex;flex-direction:column;align-items:center;gap:8px}
+    .photo-frame img{width:100%;height:220px;object-fit:cover;border-radius:10px;border:3px solid rgba(255,255,255,0.03)}
+    .photo-label{font-size:13px;color:rgba(255,255,255,0.7)}
+    .photo-input{font-size:13px;color:var(--text)}
+
+    /* right column: message and controls */
+    .right{display:flex;flex-direction:column;gap:18px}
+    h1{font-family:Playfair Display,serif;margin:0;font-size:34px;color:var(--accent)}
+    .subtitle{font-size:14px;color:rgba(255,255,255,0.8)}
+    .poem{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));padding:18px;border-radius:12px;border:1px solid rgba(255,255,255,0.03);font-size:16px;line-height:1.5}
+
+    /* playful small banter */
+    .banter{font-size:14px;color:rgba(255,255,255,0.85);display:flex;gap:10px;align-items:center}
+    .tag{background:rgba(255,255,255,0.03);padding:6px 10px;border-radius:999px;border:1px solid rgba(255,255,255,0.03)}
+
+    /* button area */
+    .controls{display:flex;gap:12px;align-items:center}
+    .btn{background:linear-gradient(90deg,var(--accent),var(--accent-2));color:#111;border:none;padding:12px 18px;border-radius:12px;font-weight:600;cursor:pointer;box-shadow:0 8px 20px rgba(255,107,154,0.12);transition:transform .12s}
+    .btn:active{transform:translateY(2px)}
+    .ghost{background:transparent;border:1px solid rgba(255,255,255,0.06);color:var(--text)}
+
+    /* center love card */
+    .pulse-area{display:flex;align-items:center;gap:14px}
+    .heart-large{width:84px;height:84px;display:grid;place-items:center;border-radius:50%;background:linear-gradient(180deg,var(--accent),#ff8fb3);box-shadow:0 8px 30px rgba(255,107,154,0.18);cursor:pointer;position:relative}
+    .heart-icon{width:44px;height:44px;transform:rotate(-45deg)}
+    .heart-icon:before,.heart-icon:after{content:"";position:absolute;width:44px;height:44px;border-radius:50%;background:#fff}
+    .heart-icon:before{top:-22px}
+    .heart-icon:after{left:22px}
+
+    .count{font-weight:700}
+
+    /* click pop animation */
+    @keyframes pop {
+      0%{transform:scale(1);opacity:1}
+      30%{transform:scale(1.35);opacity:1}
+      100%{transform:scale(1);opacity:1}
+    }
+
+    /* beating heart burst */
+    .spark{position:absolute;pointer-events:none;border-radius:50%;width:12px;height:12px;opacity:0.95}
+
+    /* responsive */
+    @media (max-width:880px){.card{grid-template-columns:1fr;align-items:center}.left img{height:180px}}
+
+    footer{margin-top:10px;font-size:13px;color:rgba(255,255,255,0.6)}
+  </style>
+</head>
+<body>
+  <div class="sky" aria-hidden="true"></div>
+  <div class="container">
+    <div class="card" role="main">
+      <div class="left">
+        <div class="photo-frame">
+          <div class="photo-label">Your photo — click to choose</div>
+          <img id="photo1" src="photo 1.jpg" alt="Photo 1">
+          <input id="input1" class="photo-input" type="file" accept="image/*" aria-label="Choose photo 1">
+        </div>
+
+        <div class="photo-frame">
+          <div class="photo-label">A goofy moment — choose another</div>
+          <img id="photo2" src="photo 2.jpg" alt="Photo 2">
+          <input id="input2" class="photo-input" type="file" accept="image/*" aria-label="Choose photo 2">
+        </div>
+
+        <div class="photo-frame">
+          <div class="photo-label">Or drag any photo here</div>
+          <div style="width:100%;padding:14px;border-radius:9px;border:2px dashed rgba(255,255,255,0.03);text-align:center;color:rgba(255,255,255,0.6)">Drop image over the page to replace</div>
+        </div>
+      </div>
+
+      <div class="right">
+        <h1>Tee — my favorite trouble</h1>
+        <div class="subtitle">A tiny website I made because you make my heart do the most dramatic things.</div>
+
+        <div class="poem" id="poem">
+          <strong>Short & poetic:</strong>
+          <p style="margin:10px 0 0">Tee, you steal my calm and replace it with butterflies — loud, insistent, and slightly dramatic. You make my heart do cartwheels and my brain forget how to behave. I love you, chaotic and soft. Now come back online so I can properly annoy you.</p>
+        </div>
+
+        <div class="banter">
+          <div class="tag">Jealous of your phone 📵</div>
+          <div class="tag">Owner: me (claim pending) 😏</div>
+          <div class="tag">Status: hopelessly, happily yours 💛</div>
+        </div>
+
+        <div class="controls">
+          <button class="btn" id="clickMe">Click me</button>
+          <button class="btn ghost" id="togglePoem">Surprise line</button>
+          <a class="btn ghost" id="downloadBtn" href="#" download="for-tee.png">Save a snapshot</a>
+        </div>
+
+        <div class="pulse-area">
+          <div class="heart-large" id="bigHeart" title="Annoy Tee with love">
+            <svg class="heart-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:44px;height:44px;position:relative">
+              <path d="M12 21s-7-4.438-9.07-7.07C-0.07 10 2.82 5 7.5 5 10 5 12 6.5 12 6.5S14 5 16.5 5C21.18 5 24.07 10 21.07 13.93 19 16.56 12 21 12 21z" fill="white" opacity="0.95"/>
+            </svg>
+          </div>
+          <div style="flex:1">
+            <div style="font-size:13px;color:rgba(255,255,255,0.7)">Beats: <span class="count" id="count">0</span></div>
+            <div style="font-size:13px;margin-top:6px;color:rgba(255,255,255,0.6)">Click the big heart or the <strong>Click me</strong> button to make it pop.</div>
+          </div>
+        </div>
+
+        <footer>
+          <div>Links: <a href="https://www.youtube.com/playlist?list=PLmxJ1IJFh8qYC7kOaQ5xWl32BuGzdnvi_" id="link1">Our playlist</a> · <a href="Gallery.html" id="link2">Gallery</a> · <a href="a silly-list to do.html" id="link3">A silly to-do list</a></div>
+        </footer>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // create floating hearts randomly for background
+    const sky = document.querySelector('.sky');
+    function makeHearts(n=18){
+      for(let i=0;i<n;i++){
+        const h = document.createElement('div');
+        h.className='heart';
+        const size = 8 + Math.random()*28;
+        h.style.width = size+'px'; h.style.height=size+'px';
+        h.style.left = Math.random()*100+'%';
+        h.style.top = Math.random()*100+'%';
+        h.style.opacity = 0.35 + Math.random()*0.9;
+        h.style.background = 'transparent';
+        const color = Math.random()>0.5? getComputedStyle(document.documentElement).getPropertyValue('--accent') : getComputedStyle(document.documentElement).getPropertyValue('--accent-2');
+        h.style.setProperty('--c', color);
+        h.querySelectorAll?.length;
+        sky.appendChild(h);
+        // float animation
+        const anim = h.animate([
+          {transform: 'translateY(0) scale(1)', opacity:h.style.opacity},
+          {transform: 'translateY(-80px) scale(0.95)', opacity:0.1}
+        ],{duration:8000 + Math.random()*10000,iterations:Infinity,direction:'alternate',easing:'ease-in-out'});
+      }
+    }
+    makeHearts(20);
+
+    // photo inputs
+    function bindInput(inputId,imgId){
+      const inp = document.getElementById(inputId);
+      const img = document.getElementById(imgId);
+      inp.addEventListener('change', e=>{
+        const file = e.target.files[0];
+        if(!file) return;
+        const url = URL.createObjectURL(file);
+        img.src = url;
+      })
+    }
+    bindInput('input1','photo1');
+    bindInput('input2','photo2');
+
+    // click heart logic: show little sparkles and increment count
+    const big = document.getElementById('bigHeart');
+    const countEl = document.getElementById('count');
+    let count = 0;
+    function popLove(x,y){
+      count++;
+      countEl.textContent = count;
+      big.animate([{transform:'scale(1)'},{transform:'scale(1.25)'},{transform:'scale(1)'}],{duration:380,easing:'cubic-bezier(.2,.9,.3,1)'});
+
+      // create multiple small sparks
+      for(let i=0;i<8;i++){
+        const s = document.createElement('div');
+        s.className='spark';
+        s.style.width = (6+Math.random()*12)+'px';
+        s.style.height = s.style.width;
+        s.style.left = (x || (big.getBoundingClientRect().left + big.offsetWidth/2)) + 'px';
+        s.style.top = (y || (big.getBoundingClientRect().top + big.offsetHeight/2)) + 'px';
+        s.style.background = Math.random()>0.5? 'var(--accent)' : 'var(--accent-2)';
+        s.style.borderRadius='50%';
+        document.body.appendChild(s);
+        const dx = (Math.random()-0.5)*160;
+        const dy = (Math.random()-0.8)*160 - 10;
+        s.animate([
+          {transform:'translate(0,0) scale(0.6)',opacity:1},
+          {transform:`translate(${dx}px,${dy}px) scale(1)`,opacity:0}
+        ],{duration:700 + Math.random()*500, easing:'cubic-bezier(.2,.9,.3,1)'}).onfinish = ()=> s.remove();
+      }
+    }
+
+    big.addEventListener('click', (ev)=>{
+      const x = ev.clientX; const y = ev.clientY;
+      popLove(x,y);
+    });
+    document.getElementById('clickMe').addEventListener('click', ()=> popLove());
+
+    // toggle a surprise line
+    const toggle = document.getElementById('togglePoem');
+    const poem = document.getElementById('poem');
+    let shown=false;
+    toggle.addEventListener('click', ()=>{
+      if(!shown){
+        const el = document.createElement('p');
+        el.id='surpriseLine';
+        el.style.marginTop='10px';
+        el.textContent = 'P.S. I still get jealous of your left sock. It has too much of your attention.';
+        poem.appendChild(el);
+        toggle.textContent='Hide line';
+      } else {
+        const el = document.getElementById('surpriseLine'); if(el) el.remove();
+        toggle.textContent='Surprise line';
+      }
+      shown = !shown;
+    });
+
+    // snapshot download (simple canvas snapshot)
+    const downloadBtn = document.getElementById('downloadBtn');
+    downloadBtn.addEventListener('click', async (e)=>{
+      e.preventDefault();
+      // render card to canvas
+      const card = document.querySelector('.card');
+      const rect = card.getBoundingClientRect();
+      const scale = 2;
+      const canvas = document.createElement('canvas');
+      canvas.width = rect.width*scale; canvas.height = rect.height*scale;
+      const ctx = canvas.getContext('2d');
+      ctx.scale(scale,scale);
+      // simple background
+      ctx.fillStyle = getComputedStyle(document.body).background;
+      ctx.fillRect(0,0,rect.width,rect.height);
+      // draw images
+      const img1 = document.getElementById('photo1');
+      const img2 = document.getElementById('photo2');
+      try{
+        ctx.drawImage(img1, 12, 12, 336, 220);
+        ctx.drawImage(img2, 12, 256, 336, 220);
+      }catch(err){/* ignore cross-origin issues */}
+      // text fallback
+      ctx.fillStyle = 'white'; ctx.font='18px serif'; ctx.fillText('For Tee — snapshot', 380,40);
+      const data = canvas.toDataURL('image/png');
+      downloadBtn.href = data;
+      downloadBtn.download = 'for-tee.png';
+      // let browser follow link
+      downloadBtn.click();
+    });
+
+    // allow drop anywhere on page to replace first photo
+    window.addEventListener('dragover', e=> e.preventDefault());
+    window.addEventListener('drop', e=>{
+      e.preventDefault();
+      const f = e.dataTransfer.files && e.dataTransfer.files[0];
+      if(f && f.type.startsWith('image/')){
+        document.getElementById('photo1').src = URL.createObjectURL(f);
+      }
+    });
+
+    // small accessibility: keyboard activation
+    big.setAttribute('role','button'); big.setAttribute('tabindex','0');
+    big.addEventListener('keydown', (e)=>{ if(e.key==='Enter' || e.key===' ') popLove(); });
+  </script>
+</body>
+</html>
